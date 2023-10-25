@@ -1,12 +1,13 @@
-import Test from "./Test";
-import React from 'react'
+/* eslint-disable prettier/prettier */
+import React from 'react';
+import { Regist } from './components/Regist';
 
 function App() {
-    return (
-        <>
-            <Test />
-        </>
-    );
+  return (
+    <div>
+      <Regist />
+    </div>
+  );
 }
 
 export default App;
