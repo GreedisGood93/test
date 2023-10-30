@@ -1,9 +1,10 @@
+/* eslint-disable react/react-in-jsx-scope */
 import { Box, Button, Input, Typography } from '@mui/material';
 import { Formik } from 'formik';
-import React, { useState } from 'react';
 import '../style/style.css';
 import * as Yup from 'yup';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const validateScheme = Yup.object({
   email: Yup.string()
@@ -24,12 +25,12 @@ const validateScheme = Yup.object({
 });
 
 export const Regist = () => {
+  const navigate = useNavigate();
+
   const checkUserAlreadyRegistered = (arr, userObj) => {
     return arr.find((user) => user.mail === userObj.mail);
   };
   const newUser = (e) => {
-    console.log(e.password);
-    console.log(e.email);
     let user = {
       mail: e.email,
       pas: e.password,
@@ -40,13 +41,23 @@ export const Regist = () => {
       if (!checkUserAlreadyRegistered(arr, user)) {
         arr.push(user);
         localStorage.setItem('users', JSON.stringify(arr));
+        toast.success('Аккаун успешно зарегестрирован');
+        navigate('/');
+        e.password = '';
+        e.email = '';
       } else {
+        toast.error('Аккаун уже существует');
         console.log('Пользователь уже существует');
+        e.password = '';
+        e.email = '';
       }
     } else {
       arr.push(user);
       localStorage.setItem('users', JSON.stringify(arr));
-      // setWarningUserRegisted(false);
+      toast.success('Аккаун успешно зарегестрирован');
+      e.password = '';
+      e.email = '';
+      navigate('/');
     }
   };
 

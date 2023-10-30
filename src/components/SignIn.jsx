@@ -1,8 +1,11 @@
 import { Box, Button, Input, Typography } from '@mui/material';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import { loginUser } from '../slices/userSlice';
 
 const validateScheme = Yup.object({
   email: Yup.string()
@@ -23,6 +26,9 @@ const validateScheme = Yup.object({
 });
 
 export const Signin = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const userAlredyExist = (values) => {
     const users = JSON.parse(localStorage.getItem('users')) || [];
     console.log(users);
@@ -31,8 +37,11 @@ export const Signin = () => {
     );
     console.log(user);
     if (user) {
-      console.log('Успешно авторизован');
+      toast.success('Успешная авторизация');
+      dispatch(loginUser(user));
+      navigate('/');
     } else {
+      toast.error('Неправильный email или пароль');
       console.log('Неправильный email или пароль');
     }
   };
@@ -67,7 +76,7 @@ export const Signin = () => {
               }}
             >
               <Input
-                sx={{ width: '200px', fontSize: '25px', marginBottom: '10px' }}
+                sx={{ width: '300px', fontSize: '25px', marginBottom: '10px' }}
                 id="email"
                 type="email"
                 placeholder="Введите email"
@@ -83,7 +92,7 @@ export const Signin = () => {
                 </Typography>
               ) : null}
               <Input
-                sx={{ width: '200px', fontSize: '25px' }}
+                sx={{ width: '300px', fontSize: '25px' }}
                 id="password"
                 name="password"
                 type="password"

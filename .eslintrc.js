@@ -29,6 +29,6 @@ module.exports = {
   rules: {
     'react/prop-types': 'off',
     'prettier/prettier': ['warn', { endofLine: 'crlf' }],
+    'no-debbuger': 'off',
   },
 };
-
