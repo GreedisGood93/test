@@ -1,13 +1,12 @@
 import { Box, Button, Input, Typography } from '@mui/material';
-import { Formik } from 'formik';
-import React, { useState } from 'react';
-import '../style/style.css';
-import * as Yup from 'yup';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
 
 const validateScheme = Yup.object({
   email: Yup.string()
-    .email('Неверный email')
+    .email('Не корректно введен email')
 
     .required('Обязательное поле'),
   password: Yup.string()
@@ -23,42 +22,29 @@ const validateScheme = Yup.object({
     ),
 });
 
-export const Regist = () => {
-  const checkUserAlreadyRegistered = (arr, userObj) => {
-    return arr.find((user) => user.mail === userObj.mail);
-  };
-  const newUser = (e) => {
-    console.log(e.password);
-    console.log(e.email);
-    let user = {
-      mail: e.email,
-      pas: e.password,
-    };
-    let arr = [];
-    if (localStorage.getItem('users')) {
-      arr = JSON.parse(localStorage.getItem('users'));
-      if (!checkUserAlreadyRegistered(arr, user)) {
-        arr.push(user);
-        localStorage.setItem('users', JSON.stringify(arr));
-      } else {
-        console.log('Пользователь уже существует');
-      }
+export const Signin = () => {
+  const userAlredyExist = (values) => {
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    console.log(users);
+    const user = users.find(
+      (user) => user.mail === values.email && user.pas === values.password,
+    );
+    console.log(user);
+    if (user) {
+      console.log('Успешно авторизован');
     } else {
-      arr.push(user);
-      localStorage.setItem('users', JSON.stringify(arr));
-      // setWarningUserRegisted(false);
+      console.log('Неправильный email или пароль');
     }
   };
-
   return (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
       <Formik
+        validationSchema={validateScheme}
         initialValues={{
           email: '',
           password: '',
         }}
-        validationSchema={validateScheme}
-        onSubmit={newUser}
+        onSubmit={userAlredyExist}
       >
         {({
           errors,
@@ -70,7 +56,7 @@ export const Regist = () => {
         }) => (
           <form onSubmit={handleSubmit} noValidate>
             <Typography variant="h1" sx={{ color: 'teal' }}>
-              Регистрация
+              Авторизация
             </Typography>
             <Box
               sx={{
@@ -81,7 +67,7 @@ export const Regist = () => {
               }}
             >
               <Input
-                sx={{ width: '200px', fontSize: '25px' }}
+                sx={{ width: '200px', fontSize: '25px', marginBottom: '10px' }}
                 id="email"
                 type="email"
                 placeholder="Введите email"
@@ -96,14 +82,6 @@ export const Regist = () => {
                   {errors.email}
                 </Typography>
               ) : null}
-            </Box>
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-              }}
-            >
               <Input
                 sx={{ width: '200px', fontSize: '25px' }}
                 id="password"
@@ -120,13 +98,17 @@ export const Regist = () => {
                   {errors.password}
                 </Typography>
               ) : null}
+              <Button
+                sx={{ marginTop: '20px' }}
+                type="submit"
+                variant="contained"
+                color="success"
+              >
+                Подтвердить
+              </Button>
             </Box>
-            <Button type="submit" variant="contained" color="success">
-              Подтвердить
-            </Button>
             <Typography variant="p">
-              У вас уже есть аккаунт?
-              <Link to={'/sign-in'}>Войти</Link>
+              <Link to={'/sign-up'}>Регистрация</Link>
             </Typography>
           </form>
         )}

@@ -18,6 +18,8 @@
     "formik": "^2.4.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router": "^6.17.0",
+    "react-router-dom": "^6.17.0",
     "react-scripts": "5.0.1",
     "redux": "^4.2.1",
     "toolkit": "^1.5.4",
@@ -54,4 +56,3 @@
     "prettier": "^3.0.3"
   }
 }
-
