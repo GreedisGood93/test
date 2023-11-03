@@ -1,9 +1,6 @@
-/* eslint-disable prettier/prettier */
 import React, { useEffect } from 'react';
-import { Regist } from './components/Regist';
-import { Signin } from './components/SignIn';
+import { Signin, Signup, Home } from './components/index.js';
 import { Route, Routes, useNavigate } from 'react-router';
-import Home from './components/Home';
 import { useSelector } from 'react-redux';
 
 function App() {
@@ -12,15 +9,16 @@ function App() {
   useEffect(() => {
     if (!isAuth) {
       navigate('/sign-in');
-    } else navigate('/');
-    console.log(isAuth);
+    } else {
+      navigate('/');
+    }
   }, []);
 
   return (
     <div>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/sign-up" element={<Regist />} />
+        <Route path="/sign-up" element={<Signup />} />
         <Route path="/sign-in" element={<Signin />} />
       </Routes>
     </div>

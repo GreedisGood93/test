@@ -1,14 +1,15 @@
-/* eslint-disable react/react-in-jsx-scope */
-import { Box, Button, Input, Typography } from '@mui/material';
-import { Formik } from 'formik';
-import '../style/style.css';
-import * as Yup from 'yup';
+import { Box, Button, TextField, Typography } from '@mui/material';
+import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
 import { toast } from 'react-toastify';
-
+import { useDispatch } from 'react-redux';
+import { loginUser } from '../../slices/userSlice';
+import '../Signin/style.css';
 const validateScheme = Yup.object({
   email: Yup.string()
-    .email('Неверный email')
+    .email('Не корректно введен email')
 
     .required('Обязательное поле'),
   password: Yup.string()
@@ -24,52 +25,36 @@ const validateScheme = Yup.object({
     ),
 });
 
-export const Regist = () => {
+export default function SignIn() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const checkUserAlreadyRegistered = (arr, userObj) => {
-    return arr.find((user) => user.mail === userObj.mail);
-  };
-  const newUser = (e) => {
-    let user = {
-      mail: e.email,
-      pas: e.password,
-    };
-    let arr = [];
-    if (localStorage.getItem('users')) {
-      arr = JSON.parse(localStorage.getItem('users'));
-      if (!checkUserAlreadyRegistered(arr, user)) {
-        arr.push(user);
-        localStorage.setItem('users', JSON.stringify(arr));
-        toast.success('Аккаун успешно зарегестрирован');
-        navigate('/');
-        e.password = '';
-        e.email = '';
-      } else {
-        toast.error('Аккаун уже существует');
-        console.log('Пользователь уже существует');
-        e.password = '';
-        e.email = '';
-      }
-    } else {
-      arr.push(user);
-      localStorage.setItem('users', JSON.stringify(arr));
-      toast.success('Аккаун успешно зарегестрирован');
-      e.password = '';
-      e.email = '';
-      navigate('/');
-    }
+  const getUser = (users, email, password) => {
+    return users.find(
+      (user) => user.mail === email && user.password === password,
+    );
   };
 
+  const handleSubmit = (values) => {
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const user = getUser(users, values.email, values.password);
+    if (user) {
+      toast.success('Успешная авторизация');
+      dispatch(loginUser(user));
+      navigate('/');
+    } else {
+      toast.error('Неправильный email или пароль');
+    }
+  };
   return (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
       <Formik
+        validationSchema={validateScheme}
         initialValues={{
           email: '',
           password: '',
         }}
-        validationSchema={validateScheme}
-        onSubmit={newUser}
+        onSubmit={handleSubmit}
       >
         {({
           errors,
@@ -81,7 +66,7 @@ export const Regist = () => {
         }) => (
           <form onSubmit={handleSubmit} noValidate>
             <Typography variant="h1" sx={{ color: 'teal' }}>
-              Регистрация
+              Авторизация
             </Typography>
             <Box
               sx={{
@@ -91,8 +76,8 @@ export const Regist = () => {
                 marginBottom: '10px',
               }}
             >
-              <Input
-                sx={{ width: '200px', fontSize: '25px' }}
+              <TextField
+                sx={{ width: '300px', fontSize: '25px', marginBottom: '10px' }}
                 id="email"
                 type="email"
                 placeholder="Введите email"
@@ -100,23 +85,15 @@ export const Regist = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.email}
-                error={touched.email && errors.email}
+                error={touched.email && !!errors.email}
               />
               {touched.email && errors.email ? (
                 <Typography variant="p" sx={{ color: 'teal' }}>
                   {errors.email}
                 </Typography>
               ) : null}
-            </Box>
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-              }}
-            >
-              <Input
-                sx={{ width: '200px', fontSize: '25px' }}
+              <TextField
+                sx={{ width: '300px', fontSize: '25px' }}
                 id="password"
                 name="password"
                 type="password"
@@ -124,24 +101,28 @@ export const Regist = () => {
                 onChange={handleChange}
                 value={values.password}
                 onBlur={handleBlur}
-                error={touched.password && errors.password}
+                error={touched.password && !!errors.password}
               />
               {touched.password && errors.password ? (
                 <Typography variant="p" sx={{ color: 'teal' }}>
                   {errors.password}
                 </Typography>
               ) : null}
+              <Button
+                sx={{ marginTop: '20px' }}
+                type="submit"
+                variant="contained"
+                color="success"
+              >
+                Подтвердить
+              </Button>
             </Box>
-            <Button type="submit" variant="contained" color="success">
-              Подтвердить
-            </Button>
             <Typography variant="p">
-              У вас уже есть аккаунт?
-              <Link to={'/sign-in'}>Войти</Link>
+              <Link to={'/sign-up'}>Регистрация</Link>
             </Typography>
           </form>
         )}
       </Formik>
     </div>
   );
-};
+}

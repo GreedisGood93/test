@@ -1,5 +1,13 @@
-import { Box, Button, InputBase, Typography, styled } from '@mui/material';
 import React from 'react';
+import {
+  Box,
+  Button,
+  InputBase,
+  TextField,
+  Typography,
+  styled,
+} from '@mui/material';
+import { Formik } from 'formik';
 
 export default function Slider() {
   const SearchInp = styled('div')(({ theme }) => ({
@@ -21,18 +29,20 @@ export default function Slider() {
           gap: '10px',
         }}
       >
-        <SearchInp>
-          <InputBase
-            placeholder="Поиск..."
-            sx={{
-              width: '100%',
-              fontSize: '20px',
-            }}
-          />
-        </SearchInp>
-        <Button variant="contained" color="primary">
-          Подтвердить
-        </Button>
+        {/* <Formik>
+          <SearchInp>
+            <TextField
+              placeholder="Поиск..."
+              sx={{
+                width: '100%',
+                fontSize: '20px',
+              }}
+            />
+          </SearchInp>
+          <Button variant="contained" color="primary">
+            Подтвердить
+          </Button>
+        </Formik> */}
       </Box>
       <Box
         sx={{

@@ -27,8 +27,9 @@ module.exports = {
   },
   plugins: ['@typescript-eslint', 'react'],
   rules: {
+    'no-debugger': 'warn',
     'react/prop-types': 'off',
-    'prettier/prettier': ['warn', { endofLine: 'crlf' }],
-    'no-debbuger': 'off',
+    'prettier/prettier': ['error', { endofLine: 'crlf' }],
+    'react/react-in-jsx-scope': 'off',
   },
 };
