@@ -1,11 +1,14 @@
 import { Button, Typography } from '@mui/material';
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
+import { logoutUser } from '../../slices/userSlice';
 
 const Header = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const userEmail = useSelector((state) => state.user.email);
+  // let isAuth = useSelector((state) => state.user.isAuth);
   return (
     <div
       style={{
@@ -24,7 +27,9 @@ const Header = () => {
         variant="contained"
         color="error"
         onClick={() => {
+          dispatch(logoutUser());
           navigate('/sign-in');
+          localStorage.removeItem('currentUser');
         }}
       >
         Выйти

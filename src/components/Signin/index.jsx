@@ -41,6 +41,7 @@ export default function SignIn() {
     if (user) {
       toast.success('Успешная авторизация');
       dispatch(loginUser(user));
+      localStorage.setItem('currentUser', JSON.stringify(user));
       navigate('/');
     } else {
       toast.error('Неправильный email или пароль');
