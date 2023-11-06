@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, TextField, Typography, styled } from '@mui/material';
+import { Box, Button, InputBase, Typography, styled } from '@mui/material';
 import { Formik } from 'formik';
 
 export default function Slider() {
@@ -24,15 +24,16 @@ export default function Slider() {
       >
         <Formik>
           <form>
-            <SearchInp>
-              <TextField
+            <Typography variant="span" style={{ color: 'teal' }}>
+              Введите город
+            </Typography>
+            <SearchInp style={{ padding: '0 10px', width: '100%' }}>
+              <InputBase
                 placeholder="Поиск..."
-                sx={{
-                  width: '100%',
-                  fontSize: '20px',
-                }}
+                style={{ padding: '10px', width: '100%' }}
               />
             </SearchInp>
+
             <Button variant="contained" color="primary">
               Подтвердить
             </Button>
