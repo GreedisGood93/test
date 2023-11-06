@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { Button, TextField, Typography } from '@mui/material';
 import { Formik } from 'formik';
 import '../Signup/style.css';
 import * as Yup from 'yup';
@@ -80,55 +80,31 @@ export default function SignUp() {
             <Typography variant="h1" sx={{ color: 'teal' }}>
               Регистрация
             </Typography>
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                marginBottom: '10px',
-              }}
-            >
-              <TextField
-                sx={{ width: '200px', fontSize: '25px' }}
-                id="email"
-                type="email"
-                placeholder="Введите email"
-                name="email"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.email}
-                error={touched.email && !!errors.email}
-              />
-              {touched.email && errors.email ? (
-                <Typography variant="p" sx={{ color: 'teal' }}>
-                  {errors.email}
-                </Typography>
-              ) : null}
-            </Box>
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-              }}
-            >
-              <TextField
-                sx={{ width: '200px', fontSize: '25px' }}
-                id="password"
-                name="password"
-                type="password"
-                placeholder="Введите пароль"
-                onChange={handleChange}
-                value={values.password}
-                onBlur={handleBlur}
-                error={touched.password && !!errors.password}
-              />
-              {touched.password && errors.password ? (
-                <Typography variant="p" sx={{ color: 'teal' }}>
-                  {errors.password}
-                </Typography>
-              ) : null}
-            </Box>
+            <TextField
+              sx={{ width: '200px', fontSize: '25px' }}
+              id="email"
+              type="email"
+              placeholder="Введите email"
+              name="email"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.email}
+              error={touched.email && !!errors.email}
+              helperText={errors.email}
+            />
+            <TextField
+              sx={{ width: '200px', fontSize: '25px' }}
+              id="password"
+              name="password"
+              type="password"
+              placeholder="Введите пароль"
+              onChange={handleChange}
+              value={values.password}
+              onBlur={handleBlur}
+              error={touched.password && !!errors.password}
+              helperText={errors.password}
+            />
+
             <Button
               type="submit"
               variant="contained"

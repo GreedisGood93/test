@@ -86,12 +86,8 @@ export default function SignIn() {
                 onBlur={handleBlur}
                 value={values.email}
                 error={touched.email && !!errors.email}
+                helperText={errors.email}
               />
-              {touched.email && errors.email ? (
-                <Typography variant="p" sx={{ color: 'teal' }}>
-                  {errors.email}
-                </Typography>
-              ) : null}
               <TextField
                 sx={{ width: '300px', fontSize: '25px' }}
                 id="password"
@@ -102,12 +98,8 @@ export default function SignIn() {
                 value={values.password}
                 onBlur={handleBlur}
                 error={touched.password && !!errors.password}
+                helperText={errors.password}
               />
-              {touched.password && errors.password ? (
-                <Typography variant="p" sx={{ color: 'teal' }}>
-                  {errors.password}
-                </Typography>
-              ) : null}
               <Button
                 sx={{ marginTop: '20px' }}
                 type="submit"
