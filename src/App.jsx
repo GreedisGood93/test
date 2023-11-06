@@ -8,6 +8,8 @@ function App() {
   let isAuth = useSelector((state) => state.user.isAuth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  //Check for user authorization
   useEffect(() => {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     const users = JSON.parse(localStorage.getItem('users'));
@@ -21,6 +23,8 @@ function App() {
         : localStorage.removeItem('currentUser');
     }
   }, []);
+
+  //If the user is not authorized, we redirect to the authorization page
   useEffect(() => {
     if (!isAuth) {
       navigate('/sign-in');

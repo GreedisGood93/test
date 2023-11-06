@@ -8,7 +8,7 @@ const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userEmail = useSelector((state) => state.user.email);
-  // let isAuth = useSelector((state) => state.user.isAuth);
+
   return (
     <div
       style={{
