@@ -31,7 +31,7 @@ export default function SignUp() {
     return users.some((user) => user.mail === newUser.mail);
   };
 
-  const newUser = (e) => {
+  const handleSubmit = (e) => {
     const user = {
       mail: e.email,
       password: e.password,
@@ -66,7 +66,7 @@ export default function SignUp() {
           password: '',
         }}
         validationSchema={validateScheme}
-        onSubmit={newUser}
+        onSubmit={handleSubmit}
       >
         {({
           errors,
