@@ -1,3 +1,4 @@
+import React from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { Formik } from 'formik';
 import '../Signup/style.css';
@@ -128,7 +129,12 @@ export default function SignUp() {
                 </Typography>
               ) : null}
             </Box>
-            <Button type="submit" variant="contained" color="success">
+            <Button
+              type="submit"
+              variant="contained"
+              color="success"
+              sx={{ marginTop: '10px' }}
+            >
               Подтвердить
             </Button>
             <Typography variant="p">

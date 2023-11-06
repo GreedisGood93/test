@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Signin, Signup, Home } from './components/index.js';
+import { Home, Signin, Signup } from './components';
 import { Route, Routes, useNavigate } from 'react-router';
 import { useSelector } from 'react-redux';
 
@@ -13,7 +13,6 @@ function App() {
       navigate('/');
     }
   }, []);
-
   return (
     <div>
       <Routes>

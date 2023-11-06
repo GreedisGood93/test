@@ -29,7 +29,6 @@ module.exports = {
   rules: {
     'no-debugger': 'warn',
     'react/prop-types': 'off',
-    'prettier/prettier': ['error', { endofLine: 'crlf' }],
-    'react/react-in-jsx-scope': 'off',
+    'prettier/prettier': 'error',
   },
 };
