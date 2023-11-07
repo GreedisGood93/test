@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import {
   Box,
   Button,
@@ -35,9 +37,26 @@ export default function Slider() {
         mt: '30px',
       }}
     >
-      <Box>
-        <Typography variant="h2">{currentLocation.country}</Typography>
-        <Typography variant="h3">{currentLocation.name}</Typography>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '40px',
+        }}
+      >
+        <Button type="submit" variant="contained" color="primary" disabled>
+          <ArrowBackIosNewIcon /> Назад
+        </Button>
+        <Box>
+          <Typography variant="h2">{currentLocation.country}</Typography>
+          <Typography variant="h3">{currentLocation.name}</Typography>
+        </Box>
+
+        <Button type="submit" variant="contained" color="primary">
+          Вперед
+          <ArrowForwardIosIcon />
+        </Button>
       </Box>
       <Box
         sx={{
