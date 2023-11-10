@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { ArrowBackIosNewIcon, ArrowForwardIosIcon } from 'components';
+import { getWeatherData } from 'api';
 import {
   Box,
   Button,
@@ -15,15 +15,16 @@ export default function Slider() {
   const [currentLocation, setCurrentLocation] = useState({});
   //Call api
   useEffect(() => {
-    axios
-      .get(
-        `https://api.weatherapi.com/v1/forecast.json?key=cf5923fb527d4a26a9284517230711&q=Караганда&aqi=no&days=7&lang=ru
-        `,
-      )
-      .then((response) => {
-        setWeatherData(response.data.forecast.forecastday);
-        setCurrentLocation(response.data.location);
-      });
+    const getData = async () => {
+      try {
+        const { weatherData, currentLocation } = await getWeatherData();
+        setWeatherData(weatherData);
+        setCurrentLocation(currentLocation);
+      } catch (error) {
+        console.log('Ошибка при получении данных:', error);
+      }
+    };
+    getData();
   }, []);
   return (
     <Box
