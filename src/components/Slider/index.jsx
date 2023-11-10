@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { ArrowBackIosNewIcon, ArrowForwardIosIcon } from 'components';
 import {
   Box,
   Button,
@@ -22,7 +21,6 @@ export default function Slider() {
         `,
       )
       .then((response) => {
-        console.log(response.data.location);
         setWeatherData(response.data.forecast.forecastday);
         setCurrentLocation(response.data.location);
       });
