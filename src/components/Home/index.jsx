@@ -1,5 +1,5 @@
+import { Header, Slider } from 'components';
 import React from 'react';
-import { Slider, Header } from '../index';
 
 export default function Home() {
   return (
