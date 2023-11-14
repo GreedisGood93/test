@@ -9,6 +9,20 @@ export const getWeatherData = (city) => {
       .then((response) => {
         const weatherData = response.data.forecast.forecastday;
         const currentLocation = response.data.location;
+
+        const currentUser =
+          JSON.parse(localStorage.getItem('currentUser')) || {};
+        if (!currentUser.cities.includes(currentLocation.name)) {
+          currentUser.cities.push(currentLocation.name);
+        }
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+
+        const users = JSON.parse(localStorage.getItem('users'));
+        const userIndex = users.findIndex(
+          (user) => user.mail === currentUser.mail,
+        );
+        users[userIndex] = currentUser;
+        localStorage.setItem('users', JSON.stringify(users));
         resolve({ weatherData, currentLocation });
       })
       .catch((error) => {
