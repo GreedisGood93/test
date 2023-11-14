@@ -35,6 +35,7 @@ export default function SignUp() {
     const user = {
       mail: e.email,
       password: e.password,
+      cities: [],
     };
 
     const resetForm = (e) => {

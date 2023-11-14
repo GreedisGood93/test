@@ -1,7 +1,10 @@
-import { Button, TextField, Typography } from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
 import { Formik } from 'formik';
 import React from 'react';
 import * as Yup from 'yup';
+import { useDispatch } from 'react-redux';
+import { fetchWeatherData } from 'slices/weaherSlice';
+
 const validateScheme = Yup.object({
   city: Yup.string()
     .required('Введите город')
@@ -13,9 +16,12 @@ const validateScheme = Yup.object({
 });
 
 const SearchInp = () => {
+  const dispatch = useDispatch();
   const handleSubmit = (values) => {
-    console.log(values);
+    const city = values.city;
+    dispatch(fetchWeatherData(city));
   };
+
   return (
     <div
       style={{
@@ -52,9 +58,20 @@ const SearchInp = () => {
               style={{ padding: '0 10px', width: '100%' }}
               placeholder="Поиск..."
             />
-            <Button variant="contained" type="submit" color="primary">
-              Подтвердить
-            </Button>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                width: '100%',
+              }}
+            >
+              <Button variant="contained" type="submit" color="primary">
+                Поиск
+              </Button>
+              <Button variant="contained" color="primary">
+                Добавить
+              </Button>
+            </Box>
           </form>
         )}
       </Formik>

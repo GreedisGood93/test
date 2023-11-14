@@ -3,6 +3,7 @@ const initialState = {
   email: '',
   password: '',
   isAuth: false,
+  city: [],
 };
 export const userSlice = createSlice({
   name: 'user',
@@ -18,8 +19,11 @@ export const userSlice = createSlice({
       state.password = null;
       state.isAuth = false;
     },
+    addCity: (state, action) => {
+      state.cities.push(action.payload);
+    },
   },
 });
 
-export const { loginUser, logoutUser } = userSlice.actions;
+export const { loginUser, logoutUser, addCity } = userSlice.actions;
 export default userSlice.reducer;

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { ArrowBackIosNewIcon, ArrowForwardIosIcon } from 'components';
-import { getWeatherData } from 'api';
+import React from 'react';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import {
   Box,
   Button,
@@ -9,23 +9,11 @@ import {
   CardContent,
   Typography,
 } from '@mui/material';
+import { useSelector } from 'react-redux';
 
 export default function Slider() {
-  const [weatherData, setWeatherData] = useState([]);
-  const [currentLocation, setCurrentLocation] = useState({});
-  //Call api
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const { weatherData, currentLocation } = await getWeatherData();
-        setWeatherData(weatherData);
-        setCurrentLocation(currentLocation);
-      } catch (error) {
-        console.log('Ошибка при получении данных:', error);
-      }
-    };
-    getData();
-  }, []);
+  const weatherData = useSelector((state) => state.weather.weatherData);
+  const currentLocation = useSelector((state) => state.weather.currentLocation);
   return (
     <Box
       sx={{
@@ -48,8 +36,8 @@ export default function Slider() {
           <ArrowBackIosNewIcon /> Назад
         </Button>
         <Box>
-          <Typography variant="h2">{currentLocation.country}</Typography>
-          <Typography variant="h3">{currentLocation.name}</Typography>
+          <Typography variant="h2">{currentLocation?.country}</Typography>
+          <Typography variant="h3">{currentLocation?.name}</Typography>
         </Box>
 
         <Button type="submit" variant="contained" color="primary">
@@ -66,7 +54,7 @@ export default function Slider() {
           gap: '5px',
         }}
       >
-        {weatherData.map((item, index) => {
+        {weatherData?.map((item, index) => {
           return (
             <Card
               style={{
