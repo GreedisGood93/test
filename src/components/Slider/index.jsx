@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import {
@@ -7,13 +7,46 @@ import {
   Card,
   CardActions,
   CardContent,
+  List,
+  ListItem,
   Typography,
 } from '@mui/material';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchWeatherData } from 'slices/weaherSlice';
 
 export default function Slider() {
+  const dispatch = useDispatch();
+  const cityList = useSelector((state) => state.user.cityList);
   const weatherData = useSelector((state) => state.weather.weatherData);
-  const currentLocation = useSelector((state) => state.weather.currentLocation);
+  const [currentCityIndex, setCurrentCityIndex] = useState(0);
+
+  useEffect(() => {
+    setCurrentCityIndex(cityList.length ? cityList.length - 1 : 0);
+  }, [cityList]);
+
+  useEffect(() => {
+    const currentCity = cityList[currentCityIndex];
+    if (currentCity) {
+      dispatch(fetchWeatherData(currentCity));
+    }
+  }, [currentCityIndex, cityList]);
+
+  const handleNextCity = () => {
+    if (cityList.length > 1) {
+      setCurrentCityIndex((prevIndex) =>
+        prevIndex < cityList?.length - 1 ? prevIndex + 1 : 0,
+      );
+    }
+  };
+
+  const handlePrevCity = () => {
+    if (cityList.length > 1) {
+      setCurrentCityIndex((prevIndex) =>
+        prevIndex > 0 ? prevIndex - 1 : cityList.length - 1,
+      );
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -30,20 +63,39 @@ export default function Slider() {
           alignItems: 'center',
           justifyContent: 'center',
           gap: '40px',
+          flexDirection: 'column',
         }}
       >
-        <Button type="submit" variant="contained" color="primary" disabled>
-          <ArrowBackIosNewIcon /> Назад
-        </Button>
-        <Box>
-          <Typography variant="h2">{currentLocation?.country}</Typography>
-          <Typography variant="h3">{currentLocation?.name}</Typography>
-        </Box>
+        <List sx={{ display: 'flex' }}>
+          {cityList?.map((item, index) => (
+            <ListItem key={index}>{item}</ListItem>
+          ))}
+        </List>
 
-        <Button type="submit" variant="contained" color="primary">
-          Вперед
-          <ArrowForwardIosIcon />
-        </Button>
+        <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            onClick={handlePrevCity}
+          >
+            <ArrowBackIosNewIcon /> Назад
+          </Button>
+          <Box>
+            <Typography variant="h2">{cityList[currentCityIndex]}</Typography>
+            {/* <Typography variant="h3">{currentLocation?.name}</Typography> */}
+          </Box>
+
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            onClick={handleNextCity}
+          >
+            Вперед
+            <ArrowForwardIosIcon />
+          </Button>
+        </Box>
       </Box>
       <Box
         sx={{

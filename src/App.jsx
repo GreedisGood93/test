@@ -32,6 +32,7 @@ function App() {
       navigate('/');
     }
   }, [isAuth]);
+
   return (
     <div>
       <Routes>

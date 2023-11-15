@@ -9,7 +9,6 @@ export const getWeatherData = (city) => {
       .then((response) => {
         const weatherData = response.data.forecast.forecastday;
         const currentLocation = response.data.location;
-
         const currentUser =
           JSON.parse(localStorage.getItem('currentUser')) || {};
         if (!currentUser.cities.includes(currentLocation.name)) {

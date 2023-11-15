@@ -1,9 +1,10 @@
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { Button, TextField, Typography } from '@mui/material';
 import { Formik } from 'formik';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchWeatherData } from 'slices/weaherSlice';
+import { addingCity } from 'slices/userSlice';
 
 const validateScheme = Yup.object({
   city: Yup.string()
@@ -16,10 +17,29 @@ const validateScheme = Yup.object({
 });
 
 const SearchInp = () => {
+  const cityList = useSelector((state) => state.user.cityList);
+  const isSuccess = useSelector((state) => state.weather.isSuccess);
+  const [city, setCity] = useState('');
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (isSuccess && city) {
+      dispatch(addingCity(city));
+    }
+  }, [isSuccess, city]);
+
+  const checkCity = (city) => {
+    return cityList?.some((existingCity) => existingCity === city);
+  };
+
   const handleSubmit = (values) => {
     const city = values.city;
-    dispatch(fetchWeatherData(city));
+    if (!checkCity(city)) {
+      dispatch(fetchWeatherData(city));
+      setCity(city);
+    } else {
+      console.log(city, ' Город был уже добавлен');
+    }
   };
 
   return (
@@ -58,20 +78,10 @@ const SearchInp = () => {
               style={{ padding: '0 10px', width: '100%' }}
               placeholder="Поиск..."
             />
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                width: '100%',
-              }}
-            >
-              <Button variant="contained" type="submit" color="primary">
-                Поиск
-              </Button>
-              <Button variant="contained" color="primary">
-                Добавить
-              </Button>
-            </Box>
+
+            <Button variant="contained" type="submit" color="primary">
+              Поиск
+            </Button>
           </form>
         )}
       </Formik>
