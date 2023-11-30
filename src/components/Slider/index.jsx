@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import {
@@ -138,6 +138,9 @@ export default function Slider() {
                   display: 'flex',
                   flexDirection: 'column',
                   gap: '5px',
+                  textAlign: 'center',
+                  alignItems: 'center',
+                  width: '150px',
                 }}
               >
                 <Typography variant="span">{item.date}</Typography>
