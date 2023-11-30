@@ -24,9 +24,13 @@ export const userSlice = createSlice({
     addingCity: (state, action) => {
       state.cityList.push(action.payload);
     },
+    deleteCity: (state, action) => {
+      state.cityList.splice(action.payload, 1);
+    },
   },
 });
 
-export const { loginUser, logoutUser, addingCity } = userSlice.actions;
+export const { loginUser, logoutUser, addingCity, deleteCity } =
+  userSlice.actions;
 
 export default userSlice.reducer;

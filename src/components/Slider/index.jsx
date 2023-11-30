@@ -13,13 +13,18 @@ import {
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchWeatherData } from 'slices/weaherSlice';
+import { deleteCity } from 'slices/userSlice';
 
 export default function Slider() {
   const dispatch = useDispatch();
   const cityList = useSelector((state) => state.user.cityList);
   const weatherData = useSelector((state) => state.weather.weatherData);
   const [currentCityIndex, setCurrentCityIndex] = useState(0);
-
+  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  const users = JSON.parse(localStorage.getItem('users'));
+  const userIndex = users.findIndex((user) => user.mail === currentUser.mail);
+  users[userIndex] = currentUser;
+  localStorage.setItem('users', JSON.stringify(users));
   useEffect(() => {
     setCurrentCityIndex(cityList.length ? cityList.length - 1 : 0);
   }, [cityList]);
@@ -62,7 +67,7 @@ export default function Slider() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          gap: '40px',
+          gap: '20px',
           flexDirection: 'column',
         }}
       >
@@ -108,6 +113,19 @@ export default function Slider() {
             <ArrowForwardIosIcon />
           </Button>
         </Box>
+        <Button
+          variant="contained"
+          color="error"
+          onClick={() => {
+            currentUser.cities.splice(currentCityIndex, 1);
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            users[userIndex].cities.splice(currentCityIndex, 1);
+            localStorage.setItem('users', JSON.stringify(users));
+            dispatch(deleteCity(currentCityIndex));
+          }}
+        >
+          Удалить город
+        </Button>
       </Box>
       <Box
         sx={{
