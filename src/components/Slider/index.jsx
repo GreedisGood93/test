@@ -68,7 +68,19 @@ export default function Slider() {
       >
         <List sx={{ display: 'flex' }}>
           {cityList?.map((item, index) => (
-            <ListItem key={index}>{item}</ListItem>
+            <ListItem
+              sx={{
+                cursor: 'pointer',
+                color: index === currentCityIndex && 'red',
+                fontSize: index === currentCityIndex && '20px',
+              }}
+              key={index}
+              onClick={() => {
+                setCurrentCityIndex(index);
+              }}
+            >
+              {item}
+            </ListItem>
           ))}
         </List>
 
@@ -83,7 +95,6 @@ export default function Slider() {
           </Button>
           <Box>
             <Typography variant="h2">{cityList[currentCityIndex]}</Typography>
-            {/* <Typography variant="h3">{currentLocation?.name}</Typography> */}
           </Box>
 
           <Button
