@@ -71,8 +71,9 @@ export default function Slider() {
             <ListItem
               sx={{
                 cursor: 'pointer',
-                color: index === currentCityIndex && 'red',
+                color: index === currentCityIndex && 'teal',
                 fontSize: index === currentCityIndex && '20px',
+                borderBottom: index === currentCityIndex && '1px solid black',
               }}
               key={index}
               onClick={() => {
